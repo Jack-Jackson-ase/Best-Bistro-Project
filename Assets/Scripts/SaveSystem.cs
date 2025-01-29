@@ -27,6 +27,10 @@ public class SaveSystem : MonoBehaviour
     {
         return Path.Combine(Application.persistentDataPath, fileName);
     }
+    public static bool SearchIfFileExists(string fileName)
+    {
+        return File.Exists(GetFilePath(fileName));
+    }
 
     public static void SaveData <T>(T data, string fileName)
     {
