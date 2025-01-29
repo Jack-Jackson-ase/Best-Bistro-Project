@@ -1,8 +1,6 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -11,29 +9,21 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject menu;
     [SerializeField] private GameObject optionMenu;
 
-    [SerializeField] private GameObject mainCamera;
+    [SerializeField] private Animator mainCameraAnimator;
     [SerializeField] private GameObject vehiclePref;
-    [SerializeField] private GameObject enterHouseBlock;
 
     [SerializeField] private GameObject doorLeft;
     [SerializeField] private GameObject doorRight;
 
     [SerializeField] private Slider volumeSlider;
+    [SerializeField] private Slider sensitivitySlider;
     [SerializeField] private AudioSource soundManagerSource;
 
     bool gameStarted = false;
-    float volume;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (PlayerPrefs.HasKey("Value") != true)
-        {
-            PlayerPrefs.SetFloat("Value", 0.5f);
-            Debug.Log("Player Prefs Value was zero, now 0.5f");
-        }
-        volume = PlayerPrefs.GetFloat("Value");
-        volumeSlider.value = volume;
-        soundManagerSource.volume = volume;
+        SetOptionsState();
 
         StartCoroutine(SpawnVehicleEveryNowAndThen());
     }
@@ -43,7 +33,6 @@ public class MenuManager : MonoBehaviour
         StartCoroutine(OpenDoorAndEnter());
         gameStarted = true;
         menu.SetActive(false);
-        DataManager.instance.volume = volume;
     }
 
     public void ToggelOptionsMenu()
@@ -51,17 +40,26 @@ public class MenuManager : MonoBehaviour
         optionMenu.SetActive(!optionMenu.activeSelf);
     }
 
-    public void ChangeVolume()
+    public void ChangeOptions()
     {
-        volume = volumeSlider.value;
+        PlayerPrefs.SetFloat("Mouse Sensitivity Raw", sensitivitySlider.value);
+        PlayerPrefs.SetFloat("Volume", volumeSlider.value);
 
-        PlayerPrefs.SetFloat("Volume", volume);
         PlayerPrefs.Save();
 
         ChangeAllVolumes();
     }
+    void SetOptionsState()
+    {
+        var options = SaveSystem.GetOptionsStats();
+
+        volumeSlider.value = options.volume;
+        sensitivitySlider.value = options.sensitivityRaw;
+    }
+
     void ChangeAllVolumes()
     {
+        float volume = volumeSlider.value;
         soundManagerSource.volume = volume;
 
         var cars = FindObjectsByType<Car>(FindObjectsSortMode.None);
@@ -86,9 +84,9 @@ public class MenuManager : MonoBehaviour
         if (gameStarted == false)
         {
             StartCoroutine(DoorOpening());
-            StartCoroutine(CameraMovingIn());
+            mainCameraAnimator.SetTrigger("Camera Animation");
             yield return new WaitForSeconds(2.22f);
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene("Main", LoadSceneMode.Single);
         }
     }
     IEnumerator DoorOpening()
@@ -97,15 +95,6 @@ public class MenuManager : MonoBehaviour
         {
             doorLeft.transform.Rotate(0, 50 * Time.deltaTime, 0);
             doorRight.transform.Rotate(0, -50 * Time.deltaTime, 0);
-            yield return new WaitForEndOfFrame();
-        }
-    }
-
-    IEnumerator CameraMovingIn()
-    {
-        while (true)
-        {
-            mainCamera.transform.position += Vector3.forward * 0.7f * Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
     }

@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
-    public class MouseLook : MonoBehaviour
+public class MouseLook : MonoBehaviour
     {
+        [SerializeField] PauseSystem _pauseSystem;
 
         public float mouseXSensitivity = 100f;
 
@@ -15,7 +17,8 @@ using UnityEngine;
         // Start is called before the first frame update
         void Start()
         {
-            Cursor.lockState = CursorLockMode.Locked;
+        Mouse.current.WarpCursorPosition(new Vector2(0, 0));
+        Cursor.lockState = CursorLockMode.Locked;
         }
 
         // Update is called once per frame

@@ -4,6 +4,25 @@ using UnityEngine;
 
 public class SaveSystem : MonoBehaviour
 {
+    public static (float volume, float sensitivityRaw) GetOptionsStats() // tuple return type
+    {
+        if (PlayerPrefs.HasKey("Volume") != true)
+        {
+            PlayerPrefs.SetFloat("Volume", 0.5f);
+            Debug.Log("Player Prefs Volume was zero, now 0.5f");
+        }
+        if (PlayerPrefs.HasKey("Mouse Sensitivity Raw") != true)
+        {
+            PlayerPrefs.SetFloat("Mouse Sensitivity Raw", 0.5f);
+            Debug.Log("Player Prefs Mouse Sensitivity Raw was zero, now 0.5f");
+        }
+
+        float volume = PlayerPrefs.GetFloat("Volume");
+        float sensitivityRaw = PlayerPrefs.GetFloat("Mouse Sensitivity Raw");
+
+        return (volume, sensitivityRaw); // tuple literal
+    }
+
     public static string GetFilePath(string fileName)
     {
         return Path.Combine(Application.persistentDataPath, fileName);
