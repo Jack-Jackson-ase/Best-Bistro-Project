@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3220681858729851537}
   - component: {fileID: 3814771882741113632}
   - component: {fileID: 7253570096334606884}
+  - component: {fileID: -7113842146189773872}
   m_Layer: 0
   m_Name: Salami A
   m_TagString: Untagged
@@ -138,3 +139,21 @@ CapsuleCollider:
   m_Height: 0.5905216
   m_Direction: 0
   m_Center: {x: 0.0030411484, y: 0.07883263, z: 0.0015588998}
+--- !u!114 &-7113842146189773872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8608810954230392665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38fadcddab5aefc49ab5950d939c937a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodValueMin: 12
+  foodValueMax: 25
+  foodNumber: 0
+  foodValue: 0
+  smellNumberNormalized: 0
+  designNumberNormalized: 0

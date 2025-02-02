@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;  // 1. The Input System "using" statement
 
@@ -10,7 +9,11 @@ public class PauseSystem : MonoBehaviour
     [SerializeField] Slider volumeSlider;
     [SerializeField] Slider sensitivitySlider;
 
-    [SerializeField] MouseLook mouseLook;
+    [SerializeField] StateMachine stateMachine;
+
+    StateMachine.playerStateEnum oldPlayerState;
+
+    [SerializeField] FirstPersonLook mouseLook;
     public bool paused = false;
     bool isHold = false;
 
@@ -41,8 +44,7 @@ public class PauseSystem : MonoBehaviour
         if (Time.timeScale == 0f)
         {
             Time.timeScale = 1f;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            stateMachine.ChangePlayerState(oldPlayerState);
 
             paused = false;
             TogglePauseCanva();
@@ -52,12 +54,14 @@ public class PauseSystem : MonoBehaviour
         else
         {
             Time.timeScale = 0f;
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+
+            oldPlayerState = stateMachine.playerStateNow;
+            stateMachine.ChangePlayerState(StateMachine.playerStateEnum.OnlyMouse);
 
             paused = true;
             TogglePauseCanva();
         }
+        stateMachine.TogglePauseAudio(paused);
     }
 
     void TogglePauseCanva()
@@ -66,7 +70,8 @@ public class PauseSystem : MonoBehaviour
         {
             pauseScreen.SetActive(true);
         }
-        else {
+        else
+        {
             pauseScreen.SetActive(false);
         }
     }
@@ -92,11 +97,11 @@ public class PauseSystem : MonoBehaviour
 
         PlayerPrefs.Save();
 
-        SetMouseSensitivity(sensitivitySlider.value * 1000);
+        SetMouseSensitivity(sensitivitySlider.value * 20);
     }
 
     void SetMouseSensitivity(float sensitivity)
     {
-        mouseLook.mouseXSensitivity = sensitivity;
+        mouseLook.sensitivity = sensitivity;
     }
 }

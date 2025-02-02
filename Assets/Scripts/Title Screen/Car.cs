@@ -34,7 +34,7 @@ public class Car : MonoBehaviour
         if (transform.position.x < -6)
         {
             Destroy(gameObject);
-        } ;
+        };
     }
 
     void RandomizeColor()

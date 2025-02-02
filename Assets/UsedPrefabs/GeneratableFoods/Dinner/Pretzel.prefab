@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4819348288746655888}
   - component: {fileID: 8926717452633269308}
   - component: {fileID: 8812626846595848101}
+  - component: {fileID: 487130721528228162}
   m_Layer: 0
   m_Name: Pretzel
   m_TagString: Untagged
@@ -136,3 +137,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.40739137, y: 0.099761665, z: 0.33719903}
   m_Center: {x: 0.00082912296, y: 0.049881175, z: -0.0036240518}
+--- !u!114 &487130721528228162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6963601713644601994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbbe58f9bc04a7547a9921fc46a2a841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodValueMin: 5
+  foodValueMax: 15
+  foodNumber: 0
+  foodValue: 0
+  smellNumberNormalized: 0
+  designNumberNormalized: 0

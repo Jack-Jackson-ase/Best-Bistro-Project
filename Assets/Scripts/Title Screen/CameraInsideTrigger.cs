@@ -6,11 +6,11 @@ public class CameraInsideTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-            blackOverlay.SetActive(true); //Show black overlay
+        blackOverlay.SetActive(true); //Show black overlay
     }
 
     void OnTriggerExit(Collider other)
     {
-            blackOverlay.SetActive(false); // Hide black overlay
+        blackOverlay.SetActive(false); // Hide black overlay
     }
 }

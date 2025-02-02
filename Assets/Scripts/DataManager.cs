@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class DataManager : MonoBehaviour
 {
@@ -9,12 +8,12 @@ public class DataManager : MonoBehaviour
 
     private void Awake()
     {
-        if(instance != null)
+        if (instance != null)
         {
             Destroy(gameObject);
         }
         else
-        { 
+        {
             instance = this;
             DontDestroyOnLoad(instance);
         }

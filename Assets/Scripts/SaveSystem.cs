@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using UnityEngine;
 
@@ -32,7 +31,7 @@ public class SaveSystem : MonoBehaviour
         return File.Exists(GetFilePath(fileName));
     }
 
-    public static void SaveData <T>(T data, string fileName)
+    public static void SaveData<T>(T data, string fileName)
     {
         string json = JsonUtility.ToJson(data);
         File.WriteAllText(GetFilePath(fileName), json);

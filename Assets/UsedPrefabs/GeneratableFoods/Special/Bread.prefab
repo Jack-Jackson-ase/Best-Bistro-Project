@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3511312837663292793}
   - component: {fileID: 6079953770744676667}
   - component: {fileID: 3554591376569797344}
+  - component: {fileID: -1266146637881243798}
   m_Layer: 0
   m_Name: Bread
   m_TagString: Untagged
@@ -158,3 +159,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.17024663, y: 0.15413567, z: 0.1378195}
   m_Center: {x: 0, y: 0.012869719, z: 0.00000673905}
+--- !u!114 &-1266146637881243798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8128985325636053047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38fadcddab5aefc49ab5950d939c937a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodValueMin: 15
+  foodValueMax: 30
+  foodNumber: 0
+  foodValue: 0
+  smellNumberNormalized: 0
+  designNumberNormalized: 0
