@@ -17,7 +17,6 @@ public class ChosenFoodUI : MonoBehaviour
 
     public void DeactivateChosenFood()
     {
-        cameraAnimator.SetInteger("Chosen Food", 0);
         selectScript.DeselectFood();
         gameObject.SetActive(false);
     }

@@ -2,11 +2,13 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class MouseSelectOtherStuff : MonoBehaviour
 {
     Camera m_Camera;
     [SerializeField] StateMachine stateMachine;
+    [SerializeField] PlayerInput input;
 
     [SerializeField] BasicFood standartFoodScript; // KEIN "new BasicFood()", weil MonoBehaviour nicht mit "new" erstellt wird!
     [SerializeField] ChosenFoodUI selectedFoodUI;
@@ -23,42 +25,45 @@ public class MouseSelectOtherStuff : MonoBehaviour
 
     void Update()
     {
-        if (foodSelected == false)
+        if (!input.actions.FindAction("Look").enabled && Cursor.visible)
         {
-            RaycastHit hit;
-            Ray ray = m_Camera.ScreenPointToRay(Mouse.current.position.value);
-
-            if (Physics.Raycast(ray, out hit))
+            if (foodSelected == false)
             {
-                MonoBehaviour[] scripts = hit.transform.gameObject.GetComponents<MonoBehaviour>();
+                RaycastHit hit;
+                Ray ray = m_Camera.ScreenPointToRay(Mouse.current.position.value);
 
-                foreach (MonoBehaviour script in scripts)
+                if (Physics.Raycast(ray, out hit))
                 {
-                    if (script is BasicFood foodScript) // Prüft, ob script von BasicFood erbt und castet es direkt
+                    MonoBehaviour[] scripts = hit.transform.gameObject.GetComponents<MonoBehaviour>();
+
+                    foreach (MonoBehaviour script in scripts)
                     {
-                        selectedFoodScript = foodScript;
-                        break;
+                        if (script is BasicFood foodScript) // Prüft, ob script von BasicFood erbt und castet es direkt
+                        {
+                            selectedFoodScript = foodScript;
+                            break;
+                        }
                     }
                 }
-            }
-            if (Mouse.current.leftButton.IsPressed() && selectedFoodScript != null)
-            {
-                selectedFoodScript.IsSelected(true);
-                foodSelected = true;
-
-                StartCoroutine(MoveCameraToFoodAndActivateFoodUI());
-            }
-        }
-        else if (Mouse.current.leftButton.IsPressed() && foodSelected)
-        {
-            RaycastHit hit;
-            Ray ray = m_Camera.ScreenPointToRay(Mouse.current.position.value);
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                if (hit.transform.gameObject == selectedFoodScript.gameObject)
+                if (Mouse.current.leftButton.IsPressed() && selectedFoodScript != null)
                 {
-                    stateMachine.FoodIsTaken(selectedFoodScript);
+                    selectedFoodScript.IsSelected(true);
+                    foodSelected = true;
+
+                    StartCoroutine(MoveCameraToFoodAndActivateFoodUI());
+                }
+            }
+            else if (Mouse.current.leftButton.IsPressed() && foodSelected)
+            {
+                RaycastHit hit;
+                Ray ray = m_Camera.ScreenPointToRay(Mouse.current.position.value);
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    if (selectedFoodScript != null && hit.transform.gameObject == selectedFoodScript.gameObject)
+                    {
+                        stateMachine.FoodIsTaken(selectedFoodScript);
+                    }
                 }
             }
         }
@@ -68,12 +73,14 @@ public class MouseSelectOtherStuff : MonoBehaviour
     {
         selectedFoodScript.IsSelected(false);
         selectedFoodScript = null;
-        foodSelected = false;
+
+        GetComponent<Animator>().SetInteger("Chosen Food", 0);
     }
 
     IEnumerator MoveCameraToFoodAndActivateFoodUI()
     {
         GetComponent<Animator>().SetInteger("Chosen Food", selectedFoodScript.foodNumber);
+        foodSelected = true;
         yield return new WaitForSeconds(1f);
 
         selectedFoodUI.gameObject.SetActive(true);

@@ -67,7 +67,7 @@ public class FoodGenerator : MonoBehaviour
         {
             if (food != survivingFood.gameObject)
             {
-                Destroy(food);
+                Destroy(food.transform.parent.gameObject.transform.parent.gameObject);
             }
         }
     }

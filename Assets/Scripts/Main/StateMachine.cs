@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,10 +9,13 @@ public class StateMachine : MonoBehaviour
 {
     [SerializeField] PauseSystem pauseSystem;
     [SerializeField] FoodGenerator generateFoodScript;
+    [SerializeField] PlayerStats playerStatsScript;
 
-    [SerializeField] Animation foodMovesToTableFromLeft;
-    [SerializeField] Animation foodMovesToTableFromMiddle;
-    [SerializeField] Animation foodMovesToTableFromRight;
+    [SerializeField] AnimationClip foodMovesToTableFromLeft;
+    [SerializeField] AnimationClip foodMovesToTableFromMiddle;
+    [SerializeField] AnimationClip foodMovesToTableFromRight;
+
+    [SerializeField] AnimationClip eatFoodAnim;
 
     [SerializeField] PlayerInput input;
     [SerializeField] FirstPersonLook mouseLook;
@@ -24,13 +28,18 @@ public class StateMachine : MonoBehaviour
     [SerializeField] Event kitchenCookingSoundsFinished;
 
     BasicFood chosenFood;
+    [SerializeField] ChosenFoodUI foodUI;
+    [SerializeField] TextMeshProUGUI nextRoundText;
+
+    int roundNumber;
+    public playerStateEnum playerStateNow;
+
     public enum playerStateEnum
     {
         Sequence,
         Playable,
         OnlyMouse,
     }
-    public playerStateEnum playerStateNow;
 
     public enum gameState
     {
@@ -44,11 +53,14 @@ public class StateMachine : MonoBehaviour
     {
         if (SaveSystem.SearchIfFileExists("Game State") == true)
         {
-            gameState gameState = (gameState)System.Enum.Parse(typeof(gameState), SaveSystem.LoadData<string>("Game State"));
-            ChangeGameState(gameState);
+            //gameState gameState = (gameState)System.Enum.Parse(typeof(gameState), SaveSystem.LoadData<string>("Game State"));
+            //Here Would the game state be selected,but for the start we stay at Food Selection
+            //ChangeGameState(gameState);
+            ChangeGameState(gameState.FoodSelection);
         }
         else
         {
+            roundNumber = 1;
             //Maybe SpawnSequence and then gameState
             ChangeGameState(gameState.FoodSelection);
         }
@@ -93,6 +105,18 @@ public class StateMachine : MonoBehaviour
         switch (state)
         {
             case gameState.FoodSelection:
+
+                //Check if there are plates left from last round
+                GameObject[] oldPlates = GameObject.FindGameObjectsWithTag("plate");
+                foreach (GameObject plate in oldPlates)
+                {
+                    Destroy(plate.transform.parent.gameObject);
+                }
+
+                //Show which round it is
+                roundNumber += 1;
+                StartCoroutine(ShowTextRoundNumber());
+
                 //Player can look (and move if possible)
                 ChangePlayerState(playerStateEnum.Playable);
 
@@ -106,54 +130,88 @@ public class StateMachine : MonoBehaviour
 
                 yield return new WaitForSeconds(1);
 
+                //Start the food generating Process
                 ChangePlayerState(playerStateEnum.OnlyMouse);
                 generateFoodScript.enabled = true;
                 break;
 
             case gameState.FoodChosen:
+                //The food is chosen, so destroy other foods
                 ChangePlayerState(playerStateEnum.Sequence);
-                generateFoodScript.enabled = false;
 
                 generateFoodScript.DestroyAllFoodsBut(chosenFood);
+                generateFoodScript.enabled = false;
 
+                //Deactivates Food UI for food and sets camera back to seat
+                firstPersonCameraAnimator.SetTrigger("Set Back to Seat");
                 MoveFoodToTableMiddle(firstPersonCameraAnimator.GetInteger("Chosen Food"));
-                firstPersonCameraAnimator.SetTrigger("Set Back To Seat");
+                foodUI.DeactivateChosenFood();
 
                 yield return new WaitForSeconds(1);
+                //Activates Eat Sequence
+                firstPersonCameraAnimator.SetTrigger("Eat");
+
+                yield return new WaitForSeconds(1);
+
+                ChangePlayerState(playerStateEnum.Sequence);
+                chosenFood.AddComponent<Animation>().AddClip(eatFoodAnim, "EatFood");
+                chosenFood.GetComponent<Animation>().Play("EatFood");
+
+                yield return new WaitForSeconds(1);
+
+                //Food is not seeable
+                chosenFood.gameObject.GetComponent<MeshRenderer>().enabled = false;
+                ChangeGameState(gameState.FoodTakesEffect);
                 break;
 
             case gameState.FoodTakesEffect:
+                //Saves so if the player tries to go back, he cant
                 SaveState(gameState.FoodTakesEffect);
                 ChangePlayerState(playerStateEnum.Playable);
 
+                //Activates the foods properties (and if implemented, special Effects too)
                 generateFoodScript.enabled = false;
-                // Activate Effects
+                chosenFood.ActivateChosenFood(playerStatsScript);
+
+                yield return new WaitForSeconds(3);
+
+                //Takes some hunger away, or if hunger is 0, some health is taken away
+                playerStatsScript.NextRound();
+
+                ChangeGameState(gameState.FoodSelection);
                 break;
         }
     }
 
+    IEnumerator ShowTextRoundNumber()
+    {
+        nextRoundText.text = "Round " + roundNumber;
+        yield return new WaitForSeconds(3);
+        nextRoundText.text = null;
+    }
+
     private void MoveFoodToTableMiddle(int LeftToRightAsint)
     {
-        Animation animation = chosenFood.GetComponent<Animation>();
+        Animation animation = chosenFood.transform.parent.GetComponent<Animation>();
         if (animation == null)
         {
-            animation = chosenFood.AddComponent<Animation>();
+            animation = chosenFood.transform.parent.AddComponent<Animation>();
         }
 
         if (LeftToRightAsint == 1)
         {
-            animation.clip = foodMovesToTableFromLeft.clip;
+            animation.AddClip(foodMovesToTableFromLeft, "MoveFood");
         }
         else if (LeftToRightAsint == 2)
         {
-            animation.clip = foodMovesToTableFromMiddle.clip;
+            animation.AddClip(foodMovesToTableFromMiddle, "MoveFood");
         }
         else
         {
-            animation.clip = foodMovesToTableFromRight.clip;
+            animation.AddClip(foodMovesToTableFromRight, "MoveFood");
         }
 
-        animation.Play();
+        animation.Play("MoveFood");
     }
 
     private IEnumerator PlayKitchenSounds(int countOfPlayingSounds)

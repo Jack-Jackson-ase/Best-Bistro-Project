@@ -71,8 +71,8 @@ public class BasicFood : MonoBehaviour
         }
     }
 
-    public virtual void ActivateChosenFood()
+    public virtual void ActivateChosenFood(PlayerStats playerStatsScript)
     {
-        
+        playerStatsScript.UpdatePlayerStats(foodValue, healthValue);
     }
 }
