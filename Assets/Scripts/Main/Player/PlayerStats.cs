@@ -9,25 +9,47 @@ public class PlayerStats : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI hungerText;
     [SerializeField] TextMeshProUGUI healthText;
+
+    public int hunger = 50;
+    public int health = 50;
     public void UpdatePlayerStats(float hungerChange, float healthChange)
     {
-        hungerColumn.fillAmount += (hungerChange/100f);
-        healthColumn.fillAmount += (healthChange/100f);
+        hungerColumn.fillAmount += (hungerChange / 100f);
+        healthColumn.fillAmount += (healthChange / 100f);
 
-        hungerText.text = hungerColumn.fillAmount.ToString();
-        healthText.text = healthColumn.fillAmount.ToString();
+        UpdateStats();
     }
     public void NextRound()
     {
-        if (hungerColumn.fillAmount != 0)
+        int hungerNow = Mathf.RoundToInt(hungerColumn.fillAmount * 100);
+        hungerNow -= 15;
+
+        if (hungerNow < 0)
         {
-            hungerColumn.fillAmount -= 0.15f;
-            hungerText.text = (hungerColumn.fillAmount).ToString();
+            hungerColumn.fillAmount = 0;
+            healthColumn.fillAmount += hungerNow / 100f;
         }
         else
         {
-            healthColumn.fillAmount -= 15f;
-            healthText.text = (healthColumn.fillAmount *100).ToString() ;
+            hungerColumn.fillAmount = hungerNow / 100f;
         }
+
+        UpdateStats();
+    }
+    public void SetPlayerStats(int hunger, int health)
+    {
+        hungerColumn.fillAmount = hunger / 100f;
+        healthColumn.fillAmount = health / 100f;
+
+        UpdateStats();
+    }
+
+    void UpdateStats()
+    {
+        hunger = Mathf.RoundToInt(hungerColumn.fillAmount * 100);
+        health = Mathf.RoundToInt(healthColumn.fillAmount * 100);
+
+        hungerText.text = hunger.ToString();
+        healthText.text = health.ToString();
     }
 }

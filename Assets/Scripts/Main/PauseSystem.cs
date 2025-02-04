@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -11,9 +12,11 @@ public class PauseSystem : MonoBehaviour
 
     [SerializeField] StateMachine stateMachine;
 
-    StateMachine.playerStateEnum oldPlayerState;
+    StateMachine.PlayerStateEnum oldPlayerState;
 
     [SerializeField] FirstPersonLook mouseLook;
+
+    List<AudioSource> pausedAudioSources = new List<AudioSource>();
     public bool paused = false;
     bool isHold = false;
 
@@ -44,9 +47,9 @@ public class PauseSystem : MonoBehaviour
         if (Time.timeScale == 0f)
         {
             Time.timeScale = 1f;
-            stateMachine.ChangePlayerState(oldPlayerState);
-
             paused = false;
+
+            stateMachine.TogglePause(paused);
             TogglePauseCanva();
         }
 
@@ -55,15 +58,35 @@ public class PauseSystem : MonoBehaviour
         {
             Time.timeScale = 0f;
 
-            oldPlayerState = stateMachine.playerStateNow;
-            stateMachine.ChangePlayerState(StateMachine.playerStateEnum.OnlyMouse);
-
             paused = true;
+
             TogglePauseCanva();
         }
-        stateMachine.TogglePauseAudio(paused);
+        TogglePauseAudio(paused);
+        stateMachine.TogglePause(paused);
     }
-
+    void TogglePauseAudio(bool pause)
+    {
+        if (pause)
+        {
+            AudioSource[] audioSources = FindObjectsByType<AudioSource>(FindObjectsSortMode.None);
+            foreach (AudioSource audioSource in audioSources)
+            {
+                if (audioSource.isPlaying)
+                {
+                    audioSource.Pause();
+                    pausedAudioSources.Add(audioSource);
+                }
+            }
+        }
+        else
+        {
+            foreach (AudioSource audioSource in pausedAudioSources)
+            {
+                audioSource.UnPause();
+            }
+        }
+    }
     void TogglePauseCanva()
     {
         if (paused)

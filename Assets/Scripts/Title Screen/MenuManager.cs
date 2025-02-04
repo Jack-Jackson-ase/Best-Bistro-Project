@@ -49,12 +49,18 @@ public class MenuManager : MonoBehaviour
 
         ChangeAllVolumes();
     }
+
     void SetOptionsState()
     {
         var options = SaveSystem.GetOptionsStats();
 
         volumeSlider.value = options.volume;
         sensitivitySlider.value = options.sensitivityRaw;
+    }
+
+    public void DeleteSaveGame()
+    {
+        SaveSystem.DeleteSaveGame("Game State");
     }
 
     void ChangeAllVolumes()

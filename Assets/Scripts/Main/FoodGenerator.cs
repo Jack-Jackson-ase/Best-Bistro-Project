@@ -37,7 +37,7 @@ public class FoodGenerator : MonoBehaviour
             GameObject food = GenerateFoodPrefab(i);
             food.transform.parent = plate.transform;
             food.transform.localPosition = Vector3.up * 0.01f;
-            food.transform.rotation = Quaternion.Euler(0, Random.Range(0,360), 0);
+            food.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
             chosenFoods.Add(food);
         }
         yield return new WaitForSeconds(1);
@@ -47,7 +47,7 @@ public class FoodGenerator : MonoBehaviour
         GameObject[] foodArray = ChooseFoodRarity();
         int index = Random.Range(0, foodArray.Length);
         GameObject food = Instantiate(foodArray[index]);
-        food.GetComponent<BasicFood>().foodNumber = objectNumber+1;
+        food.GetComponent<BasicFoodBehaviour>().foodNumber = objectNumber + 1;
         return food;
     }
 
@@ -61,8 +61,9 @@ public class FoodGenerator : MonoBehaviour
         else { return specialFoods; }
     }
 
-    public void DestroyAllFoodsBut(BasicFood survivingFood)
+    public void DestroyAllFoodsBut(BasicFoodBehaviour survivingFood)
     {
+        Debug.Log("Surviving Food is " + survivingFood);
         foreach (GameObject food in chosenFoods)
         {
             if (food != survivingFood.gameObject)

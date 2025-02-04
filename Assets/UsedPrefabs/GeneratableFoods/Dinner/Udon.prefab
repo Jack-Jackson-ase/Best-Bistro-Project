@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 5569994551427030315}
   - component: {fileID: 938398649808255333}
   - component: {fileID: 767790369268169535}
+  - component: {fileID: -4873476184846823357}
   - component: {fileID: 9039592468943373934}
-  - component: {fileID: -6427687543388410325}
   m_Layer: 0
   m_Name: Udon
   m_TagString: Untagged
@@ -116,6 +116,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-4873476184846823357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6243403706124462194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db22fc34a67d8d4ea4be37e0ad06c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodValueMin: 12
+  foodValueMax: 17
+  foodNumber: 0
 --- !u!65 &9039592468943373934
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -137,21 +152,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5950665, y: 0.24631175, z: 0.5950674}
   m_Center: {x: -0.000010311604, y: 0.12315595, z: 0.00000016391277}
---- !u!114 &-6427687543388410325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6243403706124462194}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbbe58f9bc04a7547a9921fc46a2a841, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  foodValueMin: 6
-  foodValueMax: 18
-  foodNumber: 0
-  foodValue: 0
-  smellNumberNormalized: 0
-  designNumberNormalized: 0

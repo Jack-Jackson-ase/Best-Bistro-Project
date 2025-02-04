@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 3095177903929870288}
   - component: {fileID: 8786072305126056935}
   - component: {fileID: 8479161831698210784}
+  - component: {fileID: -5459128016501746586}
   - component: {fileID: 7005652096658273325}
-  - component: {fileID: 6938756705003432330}
   m_Layer: 0
   m_Name: Skewer C
   m_TagString: Untagged
@@ -116,6 +116,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-5459128016501746586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6395816019276395466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db22fc34a67d8d4ea4be37e0ad06c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodValueMin: 12
+  foodValueMax: 17
+  foodNumber: 0
 --- !u!65 &7005652096658273325
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -137,21 +152,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.19093552, y: 0.16742848, z: 1.1196656}
   m_Center: {x: -0.0003420189, y: 0.083714254, z: -0.030549496}
---- !u!114 &6938756705003432330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6395816019276395466}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbbe58f9bc04a7547a9921fc46a2a841, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  foodValueMin: 4
-  foodValueMax: 15
-  foodNumber: 0
-  foodValue: 0
-  smellNumberNormalized: 0
-  designNumberNormalized: 0

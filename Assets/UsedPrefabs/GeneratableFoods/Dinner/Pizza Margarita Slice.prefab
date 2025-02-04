@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 4851898561507713496}
   - component: {fileID: 4156338028071512334}
   - component: {fileID: 4169020520037030737}
+  - component: {fileID: -2857551949609130329}
   - component: {fileID: 6755852367893980992}
-  - component: {fileID: -3899128874717208429}
   m_Layer: 0
   m_Name: Pizza Margarita Slice
   m_TagString: Untagged
@@ -116,6 +116,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-2857551949609130329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4946472889990876893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db22fc34a67d8d4ea4be37e0ad06c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodValueMin: 8
+  foodValueMax: 16
+  foodNumber: 0
 --- !u!65 &6755852367893980992
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -137,21 +152,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.37937623, y: 0.06035385, z: 0.49633923}
   m_Center: {x: -0.0040491447, y: 0.030176768, z: 0.02511637}
---- !u!114 &-3899128874717208429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4946472889990876893}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbbe58f9bc04a7547a9921fc46a2a841, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  foodValueMin: 4
-  foodValueMax: 12
-  foodNumber: 0
-  foodValue: 0
-  smellNumberNormalized: 0
-  designNumberNormalized: 0

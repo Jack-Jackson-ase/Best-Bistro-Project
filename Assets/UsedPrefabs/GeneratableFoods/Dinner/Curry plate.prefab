@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 8017904112129514615}
   - component: {fileID: 1446888315619510573}
   - component: {fileID: 1702630100782989225}
+  - component: {fileID: -4505326668056940065}
   - component: {fileID: 8261783286989642808}
-  - component: {fileID: -1291147780928690361}
   m_Layer: 0
   m_Name: Curry plate
   m_TagString: Untagged
@@ -116,6 +116,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-4505326668056940065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666388100981130123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db22fc34a67d8d4ea4be37e0ad06c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodValueMin: 18
+  foodValueMax: 10
+  foodNumber: 0
 --- !u!65 &8261783286989642808
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -137,21 +152,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.8488758, y: 0.06913035, z: 0.8488761}
   m_Center: {x: -0.0000049471855, y: 0.034564484, z: -0.00000020861626}
---- !u!114 &-1291147780928690361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 666388100981130123}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbbe58f9bc04a7547a9921fc46a2a841, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  foodValueMin: 4
-  foodValueMax: 14
-  foodNumber: 0
-  foodValue: 0
-  smellNumberNormalized: 0
-  designNumberNormalized: 0

@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 2298574127587203686}
   - component: {fileID: 1622488374872660123}
   - component: {fileID: 743948454443174955}
+  - component: {fileID: 1066213979238437263}
   - component: {fileID: 5268859626079686354}
-  - component: {fileID: 2119212329264798704}
-  - component: {fileID: 6345225121632036475}
   m_Layer: 0
   m_Name: Burger
   m_TagString: Untagged
@@ -117,6 +116,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1066213979238437263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1209797297742851354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db22fc34a67d8d4ea4be37e0ad06c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodValueMin: 25
+  foodValueMax: 5
+  foodNumber: 0
 --- !u!65 &5268859626079686354
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -138,42 +152,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.13453068, y: 0.08499592, z: 0.13242115}
   m_Center: {x: -0.0010726675, y: 0.041006554, z: -0.00041902065}
---- !u!65 &2119212329264798704
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1209797297742851354}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.13453068, y: 0.08499592, z: 0.13242115}
-  m_Center: {x: -0.0010726675, y: 0.041006554, z: -0.00041902065}
---- !u!114 &6345225121632036475
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1209797297742851354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbbe58f9bc04a7547a9921fc46a2a841, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  foodValueMin: 2
-  foodValueMax: 18
-  foodNumber: 0
-  foodValue: 0
-  smellNumberNormalized: 0
-  designNumberNormalized: 0
