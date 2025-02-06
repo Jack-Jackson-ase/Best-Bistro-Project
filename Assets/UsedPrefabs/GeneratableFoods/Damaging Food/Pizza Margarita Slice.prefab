@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 7783909907174990899}
   - component: {fileID: 1189356624094104081}
   - component: {fileID: 1062717588447742812}
-  - component: {fileID: 4065294430713902368}
   m_Layer: 0
   m_Name: PolyShape (4)
   m_TagString: Untagged
@@ -289,28 +288,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 795766722464972086}
   m_Mesh: {fileID: 0}
---- !u!64 &4065294430713902368
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 795766722464972086}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &1867706024493489549
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,7 +301,6 @@ GameObject:
   - component: {fileID: 7071692570867565033}
   - component: {fileID: 4688845923470763994}
   - component: {fileID: 2614351150023478317}
-  - component: {fileID: 3426840547773586126}
   m_Layer: 0
   m_Name: PolyShape (2)
   m_TagString: Untagged
@@ -600,28 +576,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1867706024493489549}
   m_Mesh: {fileID: 0}
---- !u!64 &3426840547773586126
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1867706024493489549}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &2579675291729941022
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,7 +589,6 @@ GameObject:
   - component: {fileID: 7982513356316533576}
   - component: {fileID: 2668292501238589428}
   - component: {fileID: 6274386803982775431}
-  - component: {fileID: 196560483274965139}
   m_Layer: 0
   m_Name: PolyShape (3)
   m_TagString: Untagged
@@ -911,28 +864,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2579675291729941022}
   m_Mesh: {fileID: 0}
---- !u!64 &196560483274965139
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2579675291729941022}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &4101163240123607174
 GameObject:
   m_ObjectHideFlags: 0
@@ -946,7 +877,6 @@ GameObject:
   - component: {fileID: 331481968113830691}
   - component: {fileID: 7215572137382724029}
   - component: {fileID: 6521075677771161080}
-  - component: {fileID: 3226905353732690911}
   m_Layer: 0
   m_Name: PolyShape (1)
   m_TagString: Untagged
@@ -1222,28 +1152,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4101163240123607174}
   m_Mesh: {fileID: 0}
---- !u!64 &3226905353732690911
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4101163240123607174}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &4946472889990876893
 GameObject:
   m_ObjectHideFlags: 0
@@ -1397,4 +1305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd9a1499643ea3249ab42db3b0fc0c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  foodValueMin: 9
+  foodValueMax: 21
   foodNumber: 0
+  coughParticlesObject: {fileID: 0}

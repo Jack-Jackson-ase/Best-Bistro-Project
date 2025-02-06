@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class FirstPersonLook : MonoBehaviour
@@ -44,6 +45,8 @@ public class FirstPersonLook : MonoBehaviour
 
     public void ResetLook()
     {
+        Mouse.current.WarpCursorPosition(new Vector2(0.5f, 0.5f));
+
         playerCamera.localRotation = Quaternion.Euler(0f, 0f, 0f);
         playerBody.localRotation = Quaternion.Euler(0f, 0f, 0f);
     }

@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 public class StateMachine : MonoBehaviour
 {
+    [SerializeField] private AudioSource audioSource;
     [SerializeField] private PauseSystem pauseSystem;
     [SerializeField] private FoodGenerator generateFoodScript;
     [SerializeField] private PlayerStats playerStatsScript;
@@ -16,6 +17,8 @@ public class StateMachine : MonoBehaviour
     [SerializeField] private PlayerInput input;
     [SerializeField] private ChosenFoodUI foodUI;
     [SerializeField] private TextMeshProUGUI nextRoundText;
+    [SerializeField] private AudioClip nextRoundSound;
+    [SerializeField] private ParticleSystem coughParticle;
 
     [SerializeField] private AnimationClip foodMovesToTableFromLeft;
     [SerializeField] private AnimationClip foodMovesToTableFromMiddle;
@@ -28,7 +31,7 @@ public class StateMachine : MonoBehaviour
 
     private BasicFoodBehaviour takenFood;
     public BasicFoodBehaviour selectedFood;
-    private int roundNumber;
+    public int roundNumber;
     public PlayerStateEnum playerStateNow { get; private set; }
     private PlayerStateEnum oldPlayerState;
 
@@ -78,6 +81,7 @@ public class StateMachine : MonoBehaviour
 
     void ChangePlayerState(PlayerStateEnum playerState)
     {
+        mouseLook.ResetLook();
         if (playerState == PlayerStateEnum.Sequence)
         {
             input.actions.Disable(); // Deakctivate all input
@@ -252,10 +256,8 @@ public class StateMachine : MonoBehaviour
         takenFood.GetComponent<Animation>().Play("EatFood");
         yield return new WaitForSeconds(1);
 
-        takenFood.gameObject.GetComponent<MeshRenderer>().enabled = false;
-
-        yield return new WaitForSeconds(1);
-        ChangeGameState(GameState.FoodTakesEffect);
+        HideObjectWithoutDisabling(takenFood.gameObject);
+        selectedFood.ActivateChosenFood(playerStatsScript);
     }
 
     private IEnumerator HandleFoodTakesEffectState()
@@ -264,11 +266,16 @@ public class StateMachine : MonoBehaviour
         ChangePlayerState(PlayerStateEnum.Playable);
 
         takenFood.ActivateChosenFood(playerStatsScript);
-        yield return null;
+        yield return new WaitForSeconds(3);
     }
     public void FoodHasFinishedTakingEffect()
     {
         ChangeGameState(GameState.EndOfRound);
+    }
+
+    public void SpitBlood()
+    {
+        coughParticle.Play();
     }
 
     private void CleanupOldPlates()
@@ -279,8 +286,18 @@ public class StateMachine : MonoBehaviour
         }
     }
 
+    void HideObjectWithoutDisabling(GameObject obj)
+    {
+        obj.transform.localScale = Vector3.zero;
+    }
+
     private IEnumerator ShowTextRoundNumber()
     {
+        if (roundNumber > 10)
+        {
+        nextRoundText.color = Color.red;
+        audioSource.PlayOneShot(nextRoundSound, PlayerPrefs.GetFloat("Volume") * 0.5f);
+        }
         nextRoundText.text = $"Round {roundNumber}";
         yield return new WaitForSeconds(3);
         nextRoundText.text = string.Empty;

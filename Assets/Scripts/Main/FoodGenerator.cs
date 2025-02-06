@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class FoodGenerator : MonoBehaviour
 {
+    [SerializeField] StateMachine stateMachine;
+
     [SerializeField] GameObject allPlates;
 
     [SerializeField] GameObject[] normalFoods;
     [SerializeField] GameObject[] specialFoods;
+    [SerializeField] GameObject[] damagingFood;
     [SerializeField] GameObject[] dessertFoods;
 
     [SerializeField] GameObject platePrefab;
@@ -44,21 +47,33 @@ public class FoodGenerator : MonoBehaviour
     }
     GameObject GenerateFoodPrefab(int objectNumber)
     {
-        GameObject[] foodArray = ChooseFoodRarity();
+        GameObject[] foodArray = ChooseFoodVariety();
         int index = Random.Range(0, foodArray.Length);
         GameObject food = Instantiate(foodArray[index]);
         food.GetComponent<BasicFoodBehaviour>().foodNumber = objectNumber + 1;
         return food;
     }
 
-    GameObject[] ChooseFoodRarity()
+    GameObject[] ChooseFoodVariety()
     {
-        int i = Random.Range(0, 10);
-        if (i < 9)
-        {
-            return normalFoods;
+        float i = 0;
+        if (stateMachine.roundNumber >= 10) {
+            i = Random.Range(0f, 15 + 1 * Mathf.Clamp(stateMachine.roundNumber * 0.2f, 1, 20));
+            if (i < 14f)
+            {
+                return normalFoods;
+            }
+            else if (i < 15){ return specialFoods; }
+            else { return damagingFood; }
         }
-        else { return specialFoods; }
+        else {
+            i = Random.Range(0f, 15f);
+            if (i < 14f)
+            {
+                return normalFoods;
+            }
+            else { return specialFoods; }
+        }
     }
 
     public void DestroyAllFoodsBut(BasicFoodBehaviour survivingFood)

@@ -149,4 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd9a1499643ea3249ab42db3b0fc0c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  foodValueMin: 12
+  foodValueMax: 22
   foodNumber: 0
+  coughParticlesObject: {fileID: 0}

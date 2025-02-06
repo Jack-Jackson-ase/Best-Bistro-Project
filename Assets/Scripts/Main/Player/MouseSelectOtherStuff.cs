@@ -60,7 +60,7 @@ public class MouseSelectOtherStuff : MonoBehaviour
                     foodIsSelected = true;
                     stateMachine.OneFoodIsSelected(selectedFoodScript);
                 }
-                else
+                else if (selectedFoodScript == stateMachine.selectedFood)
                 {
                     foodIsSelected = false;
                     stateMachine.FoodIsTaken();
