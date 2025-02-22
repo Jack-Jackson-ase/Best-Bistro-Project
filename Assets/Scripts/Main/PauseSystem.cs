@@ -7,6 +7,7 @@ using UnityEngine.UI;  // 1. The Input System "using" statement
 public class PauseSystem : MonoBehaviour
 {
     [SerializeField] GameObject pauseScreen;
+    [SerializeField] AudioSource backgroundMusic;
     [SerializeField] Slider volumeSlider;
     [SerializeField] Slider sensitivitySlider;
 
@@ -111,6 +112,19 @@ public class PauseSystem : MonoBehaviour
 
         volumeSlider.value = options.volume;
         sensitivitySlider.value = options.sensitivityRaw;
+
+        AudioSource[] audioSources = FindObjectsByType<AudioSource>(FindObjectsSortMode.None);
+        foreach (AudioSource audioSource in audioSources)
+        {
+            if (audioSource.gameObject.CompareTag("Background Music"))
+            {
+                audioSource.volume = volumeSlider.value / 3;
+            }
+            else
+            {
+                audioSource.volume = volumeSlider.value;
+            }
+        }
     }
 
     public void ChangeOptions()
@@ -121,6 +135,33 @@ public class PauseSystem : MonoBehaviour
         PlayerPrefs.Save();
 
         SetMouseSensitivity(sensitivitySlider.value * 20);
+
+        AudioSource[] audioSources = FindObjectsByType<AudioSource>(FindObjectsSortMode.None);
+        foreach (AudioSource audioSource in audioSources)
+        {
+            if (audioSource.gameObject.CompareTag("Background Music"))
+            {
+                Debug.Log("Music is quiter");
+                audioSource.volume = volumeSlider.value / 3;
+            }
+            else
+            {
+                audioSource.volume = volumeSlider.value;
+            }
+        }
+    }
+
+    public void ToggleBackgroundMusic(Toggle toggle)
+    {
+        if (toggle.isOn)
+        {
+            Debug.Log("Music is on");
+            backgroundMusic.volume = volumeSlider.value / 3;
+        }
+        else
+        {
+            backgroundMusic.volume = 0;
+        }
     }
 
     void SetMouseSensitivity(float sensitivity)

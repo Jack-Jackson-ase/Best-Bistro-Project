@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foodValueMin: 11
-  foodValueMax: 20
+  foodValueMax: 24
   foodNumber: 0
 --- !u!136 &4995221933357690373
 CapsuleCollider:

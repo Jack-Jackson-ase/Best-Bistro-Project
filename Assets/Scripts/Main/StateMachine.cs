@@ -4,11 +4,15 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class StateMachine : MonoBehaviour
 {
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private PauseSystem pauseSystem;
+    [SerializeField] private CookBehaviour cookBehindWallBehaviour;
+    [SerializeField] private CookBehaviour cookNormalBehaviour;
     [SerializeField] private FoodGenerator generateFoodScript;
     [SerializeField] private PlayerStats playerStatsScript;
     [SerializeField] private Animator firstPersonCameraAnimator;
@@ -17,6 +21,9 @@ public class StateMachine : MonoBehaviour
     [SerializeField] private PlayerInput input;
     [SerializeField] private ChosenFoodUI foodUI;
     [SerializeField] private TextMeshProUGUI nextRoundText;
+    [SerializeField] private RoundNumber roundNumberTextScript;
+    [SerializeField] private GameObject deathMenu;
+    [SerializeField] private Image blackOverlay;
     [SerializeField] private AudioClip nextRoundSound;
     [SerializeField] private ParticleSystem coughParticle;
 
@@ -28,6 +35,7 @@ public class StateMachine : MonoBehaviour
     [SerializeField] private AudioSource kitchenAudioSource;
     [SerializeField] private List<AudioClip> kitchenSoundClips;
     [SerializeField] private AudioClip foodFinishedClip;
+    [SerializeField] private AudioClip foodFinishedShortClip;
 
     private BasicFoodBehaviour takenFood;
     public BasicFoodBehaviour selectedFood;
@@ -38,7 +46,7 @@ public class StateMachine : MonoBehaviour
     public enum PlayerStateEnum { Sequence, Playable, OnlyMouse }
     public enum GameState { StartOfRound, FoodSelection, OneFoodSelected, FoodChosen, FoodTakesEffect, EndOfRound }
 
-    private void Start()
+    void Start()
     {
         if (SaveSystem.SearchIfFileExists("Game State"))
         {
@@ -81,9 +89,9 @@ public class StateMachine : MonoBehaviour
 
     void ChangePlayerState(PlayerStateEnum playerState)
     {
-        mouseLook.ResetLook();
         if (playerState == PlayerStateEnum.Sequence)
         {
+            mouseLook.ResetLook();
             input.actions.Disable(); // Deakctivate all input
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -101,7 +109,6 @@ public class StateMachine : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-
         playerStateNow = playerState; // Saves active state
     }
 
@@ -151,10 +158,19 @@ public class StateMachine : MonoBehaviour
             case GameState.EndOfRound:
                 SaveGameState(GameState.EndOfRound);
                 yield return HandleEndOfRoundState();
+
+                if (playerStatsScript.health == 0)
+                {
+                    StartCoroutine(PlayerDeath());
+                    break;
+                }
                 ChangeGameState(GameState.StartOfRound);
                 break;
         }
     }
+
+
+
 
     private IEnumerator HandleStartOfRoundState()
     {
@@ -162,7 +178,22 @@ public class StateMachine : MonoBehaviour
         StartCoroutine(ShowTextRoundNumber());
 
         ChangePlayerState(PlayerStateEnum.Playable);
-        yield return PlayKitchenSounds(3);
+        if (15 < roundNumber)
+        {
+            yield return PlayKitchenSounds(0, foodFinishedShortClip);
+        }
+        else if (10 < roundNumber)
+        {
+            yield return PlayKitchenSounds(1, foodFinishedShortClip);
+        }
+        else if (5 < roundNumber)
+        {
+            yield return PlayKitchenSounds(2, foodFinishedClip);
+        }
+        else
+        {
+            yield return PlayKitchenSounds(3, foodFinishedClip);
+        }
 
         ChangePlayerState(PlayerStateEnum.Sequence);
         mouseLook.ResetLook();
@@ -175,12 +206,21 @@ public class StateMachine : MonoBehaviour
     private IEnumerator HandleEndOfRoundState()
     {
         Debug.Log("New Round is going to be started");
-        playerStatsScript.NextRound();
         CleanupOldPlates();
-        roundNumber++;
+        IncreaseRoundNumber();
         yield return null;
     }
 
+    private void IncreaseRoundNumber()
+    {
+        roundNumber++;
+        playerStatsScript.NextRound(roundNumber);
+        roundNumberTextScript.ShowRoundNumber();
+        if (roundNumber > 50)
+        {
+            cookNormalBehaviour.CookIsJustStanding();
+        }
+    }
     void ClearFoodData()
     {
         selectedFood = null;
@@ -249,7 +289,10 @@ public class StateMachine : MonoBehaviour
 
         Debug.Log("Eat Food Animations started");
         yield return new WaitForSeconds(1);
+
         firstPersonCameraAnimator.SetTrigger("Eat");
+        if (roundNumber == 4) { cookBehindWallBehaviour.CookIsPeeking(); }
+
         yield return new WaitForSeconds(1);
 
         takenFood.AddComponent<Animation>().AddClip(eatFoodAnim, "EatFood");
@@ -293,10 +336,10 @@ public class StateMachine : MonoBehaviour
 
     private IEnumerator ShowTextRoundNumber()
     {
-        if (roundNumber > 10)
+        if (roundNumber >= 5)
         {
-        nextRoundText.color = Color.red;
-        audioSource.PlayOneShot(nextRoundSound, PlayerPrefs.GetFloat("Volume") * 0.5f);
+            nextRoundText.color = Color.red;
+            audioSource.PlayOneShot(nextRoundSound, 0.5f);
         }
         nextRoundText.text = $"Round {roundNumber}";
         yield return new WaitForSeconds(3);
@@ -318,7 +361,7 @@ public class StateMachine : MonoBehaviour
         animation.Play("MoveFood");
     }
 
-    private IEnumerator PlayKitchenSounds(int countOfPlayingSounds)
+    private IEnumerator PlayKitchenSounds(int countOfPlayingSounds, AudioClip foodFinishedPling)
     {
         List<AudioClip> sounds = new List<AudioClip>(kitchenSoundClips);
 
@@ -327,11 +370,11 @@ public class StateMachine : MonoBehaviour
             var clip = GenerateRandomKitchenSound(sounds);
             sounds.Remove(clip);
 
-            kitchenAudioSource.PlayOneShot(clip, PlayerPrefs.GetFloat("Volume"));
+            kitchenAudioSource.PlayOneShot(clip);
             yield return new WaitWhile(() => kitchenAudioSource.isPlaying || IsGamePaused());
         }
 
-        kitchenAudioSource.PlayOneShot(foodFinishedClip, PlayerPrefs.GetFloat("Volume"));
+        kitchenAudioSource.PlayOneShot(foodFinishedPling);
         yield return new WaitWhile(() => kitchenAudioSource.isPlaying || IsGamePaused());
     }
 
@@ -341,5 +384,33 @@ public class StateMachine : MonoBehaviour
     {
         int index = Random.Range(0, availableClips.Count);
         return availableClips[index];
+    }
+
+    private IEnumerator PlayerDeath()
+    {
+        firstPersonCameraAnimator.SetTrigger("Player Death");
+        cookNormalBehaviour.CookIsWatchingDeath();
+        blackOverlay.gameObject.SetActive(true);
+
+        while (blackOverlay.color.a < 1.0f)
+        {
+            blackOverlay.color = new Color(blackOverlay.color.r, blackOverlay.color.g, blackOverlay.color.b, blackOverlay.color.a + (Time.deltaTime * 0.2f));
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        ChangePlayerState(PlayerStateEnum.OnlyMouse);
+        deathMenu.SetActive(true);
+
+        SaveSystem.DeleteSaveGame("Game State");
+    }
+
+    public void RestartGame()
+    {
+        SaveSystem.DeleteSaveGame("Game State");
+
+        SceneManager.UnloadSceneAsync(1);
+        SceneManager.LoadScene(1);
     }
 }

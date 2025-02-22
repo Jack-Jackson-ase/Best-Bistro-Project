@@ -150,10 +150,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd9a1499643ea3249ab42db3b0fc0c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foodValueMin: 10
-  foodValueMax: 25
+  foodValueMin: 18
+  foodValueMax: 28
   foodNumber: 0
-  coughParticlesObject: {fileID: 0}
 --- !u!1001 &1518722868882945254
 PrefabInstance:
   m_ObjectHideFlags: 0

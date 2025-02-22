@@ -128,8 +128,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3db22fc34a67d8d4ea4be37e0ad06c1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foodValueMin: 11
-  foodValueMax: 18
+  foodValueMin: 12
+  foodValueMax: 22
   foodNumber: 0
 --- !u!65 &1929299238235731571
 BoxCollider:

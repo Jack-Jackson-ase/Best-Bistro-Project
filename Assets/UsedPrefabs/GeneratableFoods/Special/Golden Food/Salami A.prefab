@@ -153,12 +153,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foodValueMin: 12
-  foodValueMax: 25
+  foodValueMax: 30
   foodNumber: 0
-  foodValue: 0
-  healthValue: 0
-  smellNumberNormalized: 0
-  designNumberNormalized: 0
 --- !u!1001 &1889286472377730064
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -57,16 +57,18 @@ public class FoodGenerator : MonoBehaviour
     GameObject[] ChooseFoodVariety()
     {
         float i = 0;
-        if (stateMachine.roundNumber >= 10) {
-            i = Random.Range(0f, 15 + 1 * Mathf.Clamp(stateMachine.roundNumber * 0.2f, 1, 20));
+        if (stateMachine.roundNumber >= 5)
+        {
+            i = Random.Range(0f, 15 + 1 * Mathf.Clamp(stateMachine.roundNumber * 0.5f, 1, 25));
             if (i < 14f)
             {
                 return normalFoods;
             }
-            else if (i < 15){ return specialFoods; }
+            else if (i < 15) { return specialFoods; }
             else { return damagingFood; }
         }
-        else {
+        else
+        {
             i = Random.Range(0f, 15f);
             if (i < 14f)
             {

@@ -153,9 +153,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foodValueMin: 13
-  foodValueMax: 24
+  foodValueMax: 26
   foodNumber: 0
-  coughParticlesObject: {fileID: 0}
 --- !u!1001 &5779968437065182130
 PrefabInstance:
   m_ObjectHideFlags: 0

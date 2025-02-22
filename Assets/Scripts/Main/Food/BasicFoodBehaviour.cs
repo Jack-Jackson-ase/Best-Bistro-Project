@@ -6,6 +6,7 @@ public abstract class BasicFoodBehaviour : MonoBehaviour
     Rigidbody foodRb;
     [SerializeField] protected virtual StateMachine stateMachine { get; set; }
     [SerializeField] protected virtual Animator cameraAnimator { get; set; }
+    [SerializeField] protected virtual PlayerBehaviour playerBehaviour { get; set; }
 
     [SerializeField] private int foodValueMin;
     [SerializeField] private int foodValueMax;
@@ -26,21 +27,24 @@ public abstract class BasicFoodBehaviour : MonoBehaviour
 
     public int foodNumber;
     // Virtual properties
-    public virtual int foodValue { get; set; }
-    public virtual int healthValue { get; set; }
+    public virtual float foodValue { get; set; }
+    public virtual float healthValue { get; set; }
 
 
     public virtual void Start()
     {
         foodRb = GetComponent<Rigidbody>();
+
         cameraAnimator = GameObject.Find("Player Camera").GetComponent<Animator>();
+        playerBehaviour = GameObject.Find("Player Camera").GetComponent<PlayerBehaviour>();
         stateMachine = GameObject.Find("State Machine").GetComponent<StateMachine>();
+
         GenerateProperties();
     }
     public virtual void GenerateProperties()
     {
         foodValue = Random.Range(foodValueMin, foodValueMax);
-        healthValue = Random.Range(foodValueMin, foodValueMax);
+        healthValue = Mathf.Floor(Random.Range(foodValueMin, foodValueMax) / Random.Range(2f, 3f));
     }
 
     public virtual void IsSelected(bool isSelected)

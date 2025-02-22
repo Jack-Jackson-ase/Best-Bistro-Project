@@ -22,7 +22,7 @@ namespace WeaponsAndPropsAssetPack_NAS.Scripts
         private const float timeToReconstructObject = 2f;
         private const float cycleTime = 0.2f;
         private const float timerTimeUnit = 1f;
-        
+
         private void Start()
         {
             TriggerBreak();

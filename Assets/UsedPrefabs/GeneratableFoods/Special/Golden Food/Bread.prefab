@@ -172,13 +172,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38fadcddab5aefc49ab5950d939c937a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foodValueMin: 15
-  foodValueMax: 30
+  foodValueMin: 20
+  foodValueMax: 40
   foodNumber: 0
-  foodValue: 0
-  healthValue: 0
-  smellNumberNormalized: 0
-  designNumberNormalized: 0
 --- !u!1001 &1817588580647105135
 PrefabInstance:
   m_ObjectHideFlags: 0
